@@ -28,38 +28,7 @@
 }
 
 
-{ # EDA -----------------------------------------------------------
-  #' Examine and reproduce original items
-  
-  { # geo_lad2021.json --------------------------------------------------------
-    
-    sfa = geojsonio::topojson_read("../public/data/geo_lad2021.json")
-    glimpse(sfa)
-    sfa %>% geojsonio::topojson_write(
-      file = "../public/data/geo_lad2021_uhc.json",
-      object_name  = 'geog')
-    
-  }
-  
-  { # data_region.csv ------------------------------------------------------------------
-    ## region (12)
-    
-    df_region = read_csv("../public/data/data_region.csv")
-    df_region %>% glimpse()
-    df_region %>% count(code, name)  
-  }
-  
-  
-  { # data_district.csv -------------------------------------------------------
-    
-    ## district (374)
-    df_district = read_csv("../public/data/data_district.csv")
-    df_district %>% glimpse()
-    df_district %>% count(code, name)
-    
-  }
-  
-}
+
 
 { # Outputs --------------------------------------------
   
@@ -98,8 +67,7 @@
   }
   
   { # data_state.csv ----------------------------------------------------------
-    
-    df_region %>% glimpse()
+     
     
     ## Intermediates
     df_demographics_tmp = df_demographics %>% 
@@ -140,8 +108,7 @@
   
   { # data_county.csv ----------------------------------------------------------
     
-    df_district %>% glimpse()
-    
+  
     ## Intermediates
     xwalk_county_state = sf_county_seed %>%
       as.data.frame() %>% 
