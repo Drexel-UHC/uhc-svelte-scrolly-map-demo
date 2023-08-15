@@ -153,7 +153,31 @@
           bind:map
           bind:zoom
           bind:center
-        />
+        >
+          <MapSource
+            id="paBounds"
+            type="geojson"
+            data={geojson}
+            promoteId={paBounds.code}
+            maxzoom={13}
+          >
+            <MapLayer
+              id="paBounds-fill"
+              data={data.pa}
+              type="fill"
+              paint={{
+                'fill-color': [
+                  'case',
+                  ['!=', ['feature-state', 'color'], null],
+                  ['feature-state', 'color'],
+                  'rgba(255, 255, 255, 0)',
+                ],
+                'fill-opacity': 0.7,
+              }}
+              visible={visLayers}
+            />
+          </MapSource>
+        </Map>
         <div class="stickDev">
           {id.map}
         </div>
