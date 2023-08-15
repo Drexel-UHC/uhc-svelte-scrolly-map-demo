@@ -162,9 +162,13 @@
             maxzoom={13}
           >
             <MapLayer
-              id="paBounds-fill"
+              id="pcon-fill"
               data={data.pa}
               type="fill"
+              hover={true}
+              bind:hovered
+              select={true}
+              bind:selected
               paint={{
                 'fill-color': [
                   'case',
@@ -173,6 +177,29 @@
                   'rgba(255, 255, 255, 0)',
                 ],
                 'fill-opacity': 0.7,
+              }}
+              visible={visLayers}
+            >
+              <MapTooltip content={`Code: ${hovered}`} />
+            </MapLayer>
+            <MapLayer
+              id="pcon-line"
+              type="line"
+              paint={{
+                'line-color': [
+                  'case',
+                  ['==', ['feature-state', 'selected'], true],
+                  'black',
+                  ['==', ['feature-state', 'hovered'], true],
+                  'orange',
+                  'rgba(255, 255, 255, 0)',
+                ],
+                'line-width': [
+                  'case',
+                  ['==', ['feature-state', 'selected'], true],
+                  2,
+                  1,
+                ],
               }}
               visible={visLayers}
             />
