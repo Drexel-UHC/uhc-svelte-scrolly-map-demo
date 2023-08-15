@@ -61,7 +61,7 @@
     ### Export
     sf_uhc %>% 
       geojsonio::topojson_write(
-        file = "../public/data/geo_counties.json",
+        file = "clean/geo_counties.json",
         object_name  = 'geog')
     
   }
@@ -86,14 +86,15 @@
              `2007` = 0,
              `2008` = 0) %>% 
       select(sort(names(.))) %>% 
-      select(geo, state_fip = geoid, geoid, everything())
+      select(geo, state_fip = geoid, geoid,   
+             everything()) 
     
  
     
     ## Final
     df_data_state = df_pop_wide %>% 
       left_join(xwalk_state) %>% 
-      filter(state_abbr%in%vec__state_abbr) %>% 
+      filter(state_abbr%in%vec__state_abbr) %>% glimpse()
       select(code = state_fip,
              name = state_name, 
              # area = aland_mile2,
@@ -102,7 +103,7 @@
              matches("\\b\\d{4}\\b"))
     
     ## Export
-    df_data_state %>% write_csv("../public/data/data_state.csv")
+    df_data_state %>% write_csv("clean/data_state.csv")
     
   }
   
@@ -156,10 +157,12 @@
              area = aland_mile2,
              density = pop_dens,
              age_med = median_age,
-             matches("\\b\\d{4}\\b"))
+             matches("\\b\\d{4}\\b"),
+             AREACD = geoid,
+             AREANM = county_name)
     
     ## Export
-    df_data_county %>% write_csv("../public/data/data_county.csv")
+    df_data_county %>% write_csv("clean/data_county.csv")
     
   }
   
