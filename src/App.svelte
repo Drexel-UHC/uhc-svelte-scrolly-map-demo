@@ -17,6 +17,89 @@
   import { getData, getColor, getTopo } from './utils.js';
 
   // # ============================================================================ #
+  // # Map objects
+
+  const colors = {
+    seq5: [
+      'rgb(234, 236, 177)',
+      'rgb(169, 216, 145)',
+      'rgb(0, 167, 186)',
+      'rgb(0, 78, 166)',
+      'rgb(0, 13, 84)',
+    ],
+    div10: [
+      '#67001f',
+      '#b2182b',
+      '#d6604d',
+      '#f4a582',
+      '#fddbc7',
+      '#d1e5f0',
+      '#92c5de',
+      '#4393c3',
+      '#2166ac',
+      '#053061',
+    ],
+  };
+  const paData = './data/data_county.csv';
+  const paBounds = {
+    url: './data/geo_counties.json',
+    layer: 'geog',
+    code: 'AREANM',
+  };
+  const bbox = {
+    pa: [
+      [-80.519851, 38.788657],
+      [-66.885444, 47.459833],
+    ],
+  };
+
+  // Bindings
+  let map1;
+
+  // Data
+  let data = {};
+  let geojson;
+
+  // State
+  let zoom;
+  let center = {};
+  let hovered, selected;
+
+  let showSources = true;
+  let showLayers = true;
+  let visLayers = true;
+
+  // Get geometry for geojson maps
+  getTopo(paBounds.url, paBounds.layer).then((res) => {
+    console.log('paBounds');
+    console.log(res);
+    geojson = res;
+  });
+
+  // Get data for geojson maps
+  getData(paData).then((res) => {
+    console.log(`paData`);
+    console.log(res);
+    let vals = res.map((d) => d.age_med).sort((a, b) => a - b);
+    let len = vals.length;
+    let breaks = [
+      vals[0],
+      vals[Math.floor(len * 0.2)],
+      vals[Math.floor(len * 0.4)],
+      vals[Math.floor(len * 0.6)],
+      vals[Math.floor(len * 0.8)],
+      vals[len - 1],
+    ];
+    res.forEach((d) => {
+      d.color = getColor(d.age_med, breaks, colors.seq5);
+    });
+    console.log(`paData 2`);
+    console.log(res);
+
+    data.pa = res;
+  });
+
+  // # ============================================================================ #
   // # Scroller Setup
   const threshold = 0.65;
   let id = {}; // Object to hold visible section IDs of Scroller components
