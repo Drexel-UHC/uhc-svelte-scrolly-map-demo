@@ -134,6 +134,10 @@
         console.log(`######### map02`);
         showMapLayer = true;
       },
+      map03: () => {
+        console.log(`######### map03`);
+        showMapLayer = true;
+      },
     },
   };
 </script>
@@ -278,12 +282,17 @@
   <div slot="foreground">
     <section data-id="map01">
       <div class="col-medium">
-        <p>map01</p>
+        <p><strong>OSM base map</strong></p>
       </div>
     </section>
     <section data-id="map02">
       <div class="col-medium">
-        <p>map02</p>
+        <p><strong>add boundaries</strong></p>
+      </div>
+    </section>
+    <section data-id="map03">
+      <div class="col-medium">
+        <p><strong>add median age data layer</strong></p>
       </div>
     </section>
   </div>
