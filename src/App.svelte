@@ -38,11 +38,11 @@
     }
   }
 
-  let step = 'chart01';
+  let step = 'map01';
   let actions = {
     chart: {
-      chart01: () => {},
-      chart02: () => {},
+      map01: () => {},
+      map02: () => {},
     },
   };
   $: {
@@ -71,14 +71,14 @@
   </div>
 
   <div slot="foreground">
-    <section data-id="chart01">
+    <section data-id="map01">
       <div class="col-medium">
-        <p>chart01</p>
+        <p>map01</p>
       </div>
     </section>
-    <section data-id="chart02">
+    <section data-id="map02">
       <div class="col-medium">
-        <p>chart02</p>
+        <p>map02</p>
       </div>
     </section>
   </div>
