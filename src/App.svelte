@@ -213,68 +213,6 @@
         <div class="stickDev">
           {id.map}
         </div>
-        <!-- <Map bind:map interactive={false} location={{ bounds: bbox.pa }}> -->
-        <!-- <MapSource
-            id="lad"
-            type="geojson"
-            data={geojson}
-            promoteId="AREACD"
-            maxzoom={13}
-          >
-            <MapLayer
-              id="lad-fill"
-              idKey="code"
-              colorKey={mapKey + '_color'}
-              data={data.district.indicators}
-              type="fill"
-              select
-              {selected}
-              on:select={doSelect}
-              clickIgnore={!explore}
-              hover
-              {hovered}
-              on:hover={doHover}
-              highlight
-              highlighted={mapHighlighted}
-              paint={{
-                'fill-color': [
-                  'case',
-                  ['!=', ['feature-state', 'color'], null],
-                  ['feature-state', 'color'],
-                  'rgba(255, 255, 255, 0)',
-                ],
-                'fill-opacity': 0.7,
-              }}
-            >
-              <MapTooltip
-                content={hovered
-                  ? `${
-                      metadata.district.lookup[hovered].name
-                    }<br/><strong>${data.district.indicators
-                      .find((d) => d.code == hovered)
-                      [mapKey].toLocaleString()} ${units[mapKey]}</strong>`
-                  : ''}
-              />
-            </MapLayer>
-            <MapLayer
-              id="lad-line"
-              type="line"
-              paint={{
-                'line-color': [
-                  'case',
-                  ['==', ['feature-state', 'hovered'], true],
-                  'orange',
-                  ['==', ['feature-state', 'selected'], true],
-                  'black',
-                  ['==', ['feature-state', 'highlighted'], true],
-                  'black',
-                  'rgba(255,255,255,0)',
-                ],
-                'line-width': 2,
-              }}
-            />
-          </MapSource> -->
-        <!-- </Map> -->
       </div>
     </figure>
   </div>
