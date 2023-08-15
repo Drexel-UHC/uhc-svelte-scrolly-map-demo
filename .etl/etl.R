@@ -151,19 +151,14 @@
     df_data_county = df_pop_wide %>% 
       left_join(df_spatial_metadata) %>% 
       left_join(df_age) %>% 
-      select(code = geoid,
-             name = county_name,
-             parent = state_fip,
-             area = aland_mile2,
-             density = pop_dens,
-             age_med = median_age,
-             matches("\\b\\d{4}\\b"),
-             AREACD = geoid,
-             AREANM = county_name) %>% 
       rowwise() %>% 
-      mutate(salary = rnorm(1,400,30)) %>% 
-      ungroup() %>% 
-      select(AREACD, AREANM, salary, age_med)
+      mutate(salary = rnorm(1,400,30),
+             AREACD = geoid,
+             AREANM = glue('{county_name}, {state_abbr}')) %>% 
+      ungroup()  %>% 
+      select(AREACD, AREANM, salary,  age_med = median_age)
+    
+      
     
     ## Export
     df_data_county %>% write_csv("clean/data_county.csv")
