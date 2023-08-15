@@ -170,7 +170,7 @@
             maxzoom={13}
           >
             <MapLayer
-              id="pcon-fill"
+              id="fill"
               custom={{
                 showBoundaries: showBoundaries,
                 showLayers: showLayers,
@@ -194,8 +194,11 @@
               <MapTooltip content={`Code: ${hovered}`} />
             </MapLayer>
             <MapLayer
-              id="pcon-line"
-              custom={(showLayers = showLayers)}
+              id="highlight"
+              custom={{
+                showBoundaries: showBoundaries,
+                showLayers: showLayers,
+              }}
               type="line"
               paint={{
                 'line-color': [
