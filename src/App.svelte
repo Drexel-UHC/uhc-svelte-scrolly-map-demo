@@ -65,21 +65,13 @@
   let center = {};
   let hovered, selected;
 
-  let showSources = true;
-  let showLayers = true;
-  let visLayers = true;
-
   // Get geometry for geojson maps
   getTopo(paBounds.url, paBounds.layer).then((res) => {
-    console.log('paBounds');
-    console.log(res);
     geojson = res;
   });
 
   // Get data for geojson maps
   getData(paData).then((res) => {
-    console.log(`paData`);
-    console.log(res);
     let vals = res.map((d) => d.age_med).sort((a, b) => a - b);
     let len = vals.length;
     let breaks = [
@@ -93,8 +85,6 @@
     res.forEach((d) => {
       d.color = getColor(d.age_med, breaks, colors.seq5);
     });
-    console.log(`paData 2`);
-    console.log(res);
 
     data.pa = res;
   });
@@ -116,7 +106,6 @@
           actions[code][id[code]]();
         }
         idPrev[code] = id[code];
-        step = id[code];
       }
     });
   }
@@ -128,11 +117,20 @@
     }
   }
 
-  let step = 'map01';
+  // # ============================================================================ #
+  // # Scroller Action
+
+  let showSources = true;
+  let showLayers = true;
+  let visLayers = true;
   let actions = {
-    chart: {
-      map01: () => {},
-      map02: () => {},
+    map: {
+      map01: () => {
+        console.log(`######### map01`);
+      },
+      map02: () => {
+        console.log(`######### map02`);
+      },
     },
   };
 </script>
@@ -178,7 +176,6 @@
                 ],
                 'fill-opacity': 0.7,
               }}
-              visible={visLayers}
             >
               <MapTooltip content={`Code: ${hovered}`} />
             </MapLayer>
@@ -201,7 +198,6 @@
                   1,
                 ],
               }}
-              visible={visLayers}
             />
           </MapSource>
         </Map>
