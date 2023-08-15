@@ -123,16 +123,16 @@
   let showSources = true;
   let showLayers = true;
   let visLayers = true;
-  let customLetter = 'A';
+  let showMapLayer = false;
   let actions = {
     map: {
       map01: () => {
         console.log(`######### map01`);
-        customLetter = 'A';
+        showMapLayer = false;
       },
       map02: () => {
         console.log(`######### map02`);
-        customLetter = 'B';
+        showMapLayer = true;
       },
     },
   };
@@ -164,7 +164,7 @@
           >
             <MapLayer
               id="pcon-fill"
-              custom={(customLetter = customLetter)}
+              custom={(showMapLayer = showMapLayer)}
               data={data.pa}
               type="fill"
               hover={true}
@@ -185,7 +185,7 @@
             </MapLayer>
             <MapLayer
               id="pcon-line"
-              custom={(customLetter = customLetter)}
+              custom={(showMapLayer = showMapLayer)}
               type="line"
               paint={{
                 'line-color': [

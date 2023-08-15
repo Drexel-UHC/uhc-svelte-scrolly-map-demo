@@ -77,12 +77,26 @@
     options['minzoom'] = minzoom;
   }
 
-  map.addLayer(options, order);
+  $: {
+    if (custom) {
+      map.addLayer(options, order);
+    } else {
+      map.removeLayer(id);
+    }
+  }
+
   // # ============================================================================ #
   // # diagnose code here
   $: {
     console.log(`######### ${id} #######`);
+    console.log(`custom`);
     console.log(custom);
+    console.log(`options`);
+    console.log(options);
+    console.log(`order`);
+    console.log(order);
+    console.log(`map.getLayer(id)`);
+    console.log(map.getLayer(id));
   }
 
   // Updates "color" feature states for all geo codes
