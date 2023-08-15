@@ -5,12 +5,19 @@
 
 <script>
   // # ============================================================================ #
-  // 1. Imports
+  // # Imports
   import { onMount } from 'svelte';
   import Scroller from './layout/Scroller.svelte';
+  import {
+    Map,
+    MapSource,
+    MapLayer,
+    MapTooltip,
+  } from '../libs/@onsvisual/svelte-maps';
+  import { getData, getColor, getTopo } from './utils.js';
 
   // # ============================================================================ #
-  // 2. Scroller Setup
+  // # Scroller Setup
   const threshold = 0.65;
   let id = {}; // Object to hold visible section IDs of Scroller components
   let idPrev = {}; // Object to keep track of previous IDs, to compare for changes
