@@ -135,13 +135,6 @@
       map02: () => {},
     },
   };
-  $: {
-    // Run above code when 'step' changes
-    if (step) {
-      console.log('step', step);
-      console.log(id);
-    }
-  }
 </script>
 
 <!-- 
@@ -161,6 +154,9 @@
           bind:zoom
           bind:center
         />
+        <div class="stickDev">
+          {id.map}
+        </div>
         <!-- <Map bind:map interactive={false} location={{ bounds: bbox.pa }}> -->
         <!-- <MapSource
             id="lad"
