@@ -121,22 +121,25 @@
   // # Scroller Action
 
   let showSources = true;
-  let showLayers = true;
   let visLayers = true;
-  let showMapLayer = false;
+  let showLayers = false;
+  let showBoundaries = false;
   let actions = {
     map: {
       map01: () => {
         console.log(`######### map01`);
-        showMapLayer = false;
+        showBoundaries = false;
+        showLayers = false;
       },
       map02: () => {
         console.log(`######### map02`);
-        showMapLayer = true;
+        showBoundaries = true;
+        showLayers = false;
       },
       map03: () => {
         console.log(`######### map03`);
-        showMapLayer = true;
+        showBoundaries = false;
+        showLayers = true;
       },
     },
   };
@@ -168,7 +171,10 @@
           >
             <MapLayer
               id="pcon-fill"
-              custom={(showMapLayer = showMapLayer)}
+              custom={{
+                showBoundaries: showBoundaries,
+                showLayers: showLayers,
+              }}
               data={data.pa}
               type="fill"
               hover={true}
@@ -189,7 +195,7 @@
             </MapLayer>
             <MapLayer
               id="pcon-line"
-              custom={(showMapLayer = showMapLayer)}
+              custom={(showLayers = showLayers)}
               type="line"
               paint={{
                 'line-color': [

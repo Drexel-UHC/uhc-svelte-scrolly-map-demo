@@ -78,7 +78,7 @@
   }
 
   $: {
-    if (custom) {
+    if (custom.showLayers) {
       map.addLayer(options, order);
     } else {
       map.removeLayer(id);
