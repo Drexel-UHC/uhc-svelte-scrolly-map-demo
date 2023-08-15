@@ -64,10 +64,10 @@
         file = "clean/geo_counties.json",
         object_name  = 'geog')
     
-  }
+    }
   
   { # data_state.csv ----------------------------------------------------------
-     
+    
     
     ## Intermediates
     df_demographics_tmp = df_demographics %>% 
@@ -89,12 +89,12 @@
       select(geo, state_fip = geoid, geoid,   
              everything()) 
     
- 
+    
     
     ## Final
     df_data_state = df_pop_wide %>% 
       left_join(xwalk_state) %>% 
-      filter(state_abbr%in%vec__state_abbr) %>% glimpse()
+      filter(state_abbr%in%vec__state_abbr) %>%
       select(code = state_fip,
              name = state_name, 
              # area = aland_mile2,
@@ -109,7 +109,7 @@
   
   { # data_county.csv ----------------------------------------------------------
     
-  
+    
     ## Intermediates
     xwalk_county_state = sf_county_seed %>%
       as.data.frame() %>% 
@@ -159,7 +159,11 @@
              age_med = median_age,
              matches("\\b\\d{4}\\b"),
              AREACD = geoid,
-             AREANM = county_name)
+             AREANM = county_name) %>% 
+      rowwise() %>% 
+      mutate(salary = rnorm(1,400,30)) %>% 
+      ungroup() %>% 
+      select(AREACD, AREANM, salary, age_med)
     
     ## Export
     df_data_county %>% write_csv("clean/data_county.csv")
