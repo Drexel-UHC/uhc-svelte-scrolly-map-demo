@@ -53,10 +53,12 @@
       filter(state_abbr%in%vec__state_abbr)
     
     sf_uhc = sf_init %>%  
-      mutate(id = geoid) %>% 
-      select(id,
+      mutate(id = geoid,
              AREACD = geoid,
-             AREANM = county_name)
+             AREANM = glue('{county_name}, {state_abbr}')) %>% 
+      select(id,
+             AREACD,
+             AREANM)
     
     ### Export
     sf_uhc %>% 
