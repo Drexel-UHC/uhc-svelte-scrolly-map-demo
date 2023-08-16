@@ -19,6 +19,7 @@
     uhc_api = 'https://github.com/Drexel-UHC/data-science/raw/main/etl/clean' 
     sf_county_seed =  glue("{uhc_api}/boundaries/county.json") %>% topojson_read()
     sf_place_seed =  glue("{uhc_api}/boundaries/place.json") %>% topojson_read()
+    sf_state_seed =  glue("{uhc_api}/boundaries/state.json") %>% topojson_read()
     curl_download(glue("{uhc_api}/df_demographics.parquet") , "processed/df_demographics.parquet")
     curl_download(glue("{uhc_api}/xwalk_state.parquet") , "processed/xwalk_state.parquet")
     df_demographics = arrow::read_parquet('processed/df_demographics.parquet')
@@ -68,6 +69,32 @@
         object_name  = 'geog')
     
     }
+  { ##  state_topo.json ----------------------------------------------------------------
+    
+    
+    ### Op
+    ### - select only PA, DE, MD
+    ### - rename as per original data structure
+    
+    sf_init = sf_state_seed %>% 
+      left_join(xwalk_state) %>% 
+      filter(state_abbr%in%vec__state_abbr)
+    
+    sf_uhc_state = sf_init %>%  
+      mutate(id = geoid,
+             AREACD = geoid,
+             AREANM = state_name) %>% 
+      select(id,
+             AREACD,
+             AREANM)
+    
+    ### Export
+    sf_uhc_state %>% 
+      geojsonio::topojson_write(
+        file = "clean/geo_states.json",
+        object_name  = 'geog')
+    
+  }
   
   { # data_state.csv ----------------------------------------------------------
     
