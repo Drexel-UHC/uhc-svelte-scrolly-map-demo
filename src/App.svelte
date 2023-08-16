@@ -41,9 +41,14 @@
       '#053061',
     ],
   };
-  const paData = './data/data_county.csv';
+
   const paBounds = {
     url: './data/geo_counties.json',
+    layer: 'geog',
+    code: 'AREANM',
+  };
+  const stateBounds = {
+    url: './data/geo_states.json',
     layer: 'geog',
     code: 'AREANM',
   };
@@ -60,6 +65,7 @@
   // Data
   let data = {};
   let geojson;
+  let geojson_state;
 
   // State
   let zoom;
@@ -70,9 +76,11 @@
   getTopo(paBounds.url, paBounds.layer).then((res) => {
     geojson = res;
   });
-
+  getTopo(stateBounds.url, stateBounds.layer).then((res) => {
+    geojson_state = res;
+  });
   // Get data for geojson maps
-  getData(paData).then((res) => {
+  getData('./data/data_county.csv').then((res) => {
     data.pa = res;
   });
 
