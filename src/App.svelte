@@ -15,6 +15,7 @@
     MapTooltip,
   } from '../libs/@onsvisual/svelte-maps';
   import { getData, getColor, getTopo } from './utils.js';
+  import bbox from '@turf/bbox';
 
   // # ============================================================================ #
   // # Map objects
@@ -46,7 +47,7 @@
     layer: 'geog',
     code: 'AREANM',
   };
-  const bbox = {
+  const bounds = {
     pa: [
       [-80.519851, 38.788657],
       [-66.885444, 47.459833],
@@ -83,9 +84,12 @@
   }
   function fitById(id) {
     if (geojson && id) {
-      let feature = geojson.features.find((d) => d.properties.AREACD == id);
-      let bounds = bbox(feature.geometry);
-      fitBounds(bounds);
+      let feature = geojson.features.filter(
+        (d) => d.properties.AREANM == id
+      )[0];
+      let bbox_tmp = bbox(feature.geometry);
+
+      fitBounds(bbox_tmp);
     }
   }
 
@@ -130,21 +134,21 @@
     map: {
       map01: () => {
         console.log(`######### map01`);
-        fitBounds(bbox.pa);
+        fitBounds(bounds.pa);
         boundaries = false;
         fill = false;
         highlight = false;
       },
       map02: () => {
         console.log(`######### map02`);
-        fitBounds(bbox.pa);
+        fitBounds(bounds.pa);
         boundaries = true;
         fill = false;
         highlight = false;
       },
       map03: () => {
         console.log(`######### map03`);
-        fitBounds(bbox.pa);
+        fitBounds(bounds.pa);
         boundaries = false;
         fill = true;
         colorKey = 'color_age_med';
@@ -152,7 +156,7 @@
       },
       map04: () => {
         console.log(`######### map04`);
-        fitBounds(bbox.pa);
+        fitBounds(bounds.pa);
         boundaries = false;
         fill = true;
         colorKey = 'color_salary';
@@ -160,7 +164,7 @@
       },
       map05: () => {
         console.log(`######### map05`);
-        fitBounds(bbox.pa);
+        fitById('Philadelphia, PA');
         boundaries = false;
         fill = true;
         colorKey = 'color_salary';
@@ -182,7 +186,7 @@
         <Map
           id="map"
           style="./data/style-osm.json"
-          location={{ bounds: bbox.pa }}
+          location={{ bounds: bounds.pa }}
           bind:map
           bind:zoom
           bind:center
