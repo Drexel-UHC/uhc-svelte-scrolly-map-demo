@@ -11,6 +11,7 @@
     library(geoarrow)
     library(glue)
     library(curl)  
+    library(leaflet)
   }
   
   { ## UHC seeds ----------------------------------------------------
@@ -145,25 +146,45 @@
       as_tibble() %>% 
       select(geoid, county_name,  aland_mile2,pop_dens) 
     
-    df_age = df_demographics_tmp %>% 
+    ## Age data
+    df_age_raw = df_demographics_tmp %>% 
       filter(year == 2020) %>% 
-      select(geoid, median_age)
+      select(geoid, age_med = median_age)
+    pal_age <- colorNumeric(
+      palette = "viridis", 
+      domain = df_age_raw$age_med   )
+    df_age = df_age_raw %>% 
+      mutate(color_age_med = pal_age(age_med))
+    
+    ## Fake salary data
+    set.seed(123)
+    df_salary_raw = df_demographics_tmp %>% 
+      filter(year == 2020) %>% 
+      mutate(salary = rnorm(nrow(.),400,30)) %>%
+      select(geoid, salary)
+    pal_salary <- colorNumeric(
+      palette = "plasma", 
+      domain = df_salary_raw$salary   )
+    df_salary = df_salary_raw %>% 
+      mutate(color_salary = pal_salary(salary))
+    
     
     ## Final
     df_data_county = df_pop_wide %>% 
       left_join(df_spatial_metadata) %>% 
       left_join(df_age) %>% 
+      left_join(df_salary) %>% 
       rowwise() %>% 
-      mutate(salary = rnorm(1,400,30),
-             AREACD = geoid,
+      mutate( AREACD = geoid,
              AREANM = glue('{county_name}, {state_abbr}')) %>% 
       ungroup()  %>% 
-      select(AREACD, AREANM, salary,  age_med = median_age)
+      select(AREACD, AREANM, contains('salary'), contains('age_med'))
     
       
     
     ## Export
     df_data_county %>% write_csv("clean/data_county.csv")
+    df_data_county %>% write_csv("../public/data/data_county.csv")
     
   }
   
