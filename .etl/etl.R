@@ -94,13 +94,7 @@
       geojsonio::topojson_write(
         file = "clean/geo_states.json",
         object_name  = 'geog')
-    
-    sf_uhc %>% 
-      mutate(geo = 'county') %>% 
-      bind_rows(sf_uhc_state %>% mutate(geo = 'state')) %>% 
-      geojsonio::topojson_write(
-        file = "../public/data/geo_state_counties.json",
-        object_name  = 'geog')
+
   }
   
   { # data_state.csv ----------------------------------------------------------
