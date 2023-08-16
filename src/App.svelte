@@ -75,6 +75,20 @@
     data.pa = res;
   });
 
+  // Functions for map component
+  function fitBounds(bounds) {
+    if (map) {
+      map.fitBounds(bounds, { animate: true, padding: 30 });
+    }
+  }
+  function fitById(id) {
+    if (geojson && id) {
+      let feature = geojson.features.find((d) => d.properties.AREACD == id);
+      let bounds = bbox(feature.geometry);
+      fitBounds(bounds);
+    }
+  }
+
   // # ============================================================================ #
   // # Scroller Setup
   const threshold = 0.65;
@@ -116,18 +130,21 @@
     map: {
       map01: () => {
         console.log(`######### map01`);
+        fitBounds(bbox.pa);
         boundaries = false;
         fill = false;
         highlight = false;
       },
       map02: () => {
         console.log(`######### map02`);
+        fitBounds(bbox.pa);
         boundaries = true;
         fill = false;
         highlight = false;
       },
       map03: () => {
         console.log(`######### map03`);
+        fitBounds(bbox.pa);
         boundaries = false;
         fill = true;
         colorKey = 'color_age_med';
@@ -135,6 +152,15 @@
       },
       map04: () => {
         console.log(`######### map04`);
+        fitBounds(bbox.pa);
+        boundaries = false;
+        fill = true;
+        colorKey = 'color_salary';
+        highlight = true;
+      },
+      map05: () => {
+        console.log(`######### map05`);
+        fitBounds(bbox.pa);
         boundaries = false;
         fill = true;
         colorKey = 'color_salary';
@@ -258,6 +284,11 @@
     <section data-id="map04">
       <div class="col-medium">
         <p><strong>show salary layer</strong></p>
+      </div>
+    </section>
+    <section data-id="map05">
+      <div class="col-medium">
+        <p><strong>zoom in on a specific unit</strong></p>
       </div>
     </section>
   </div>
