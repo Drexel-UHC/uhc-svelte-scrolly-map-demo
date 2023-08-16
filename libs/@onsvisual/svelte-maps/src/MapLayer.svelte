@@ -77,14 +77,6 @@
     options['minzoom'] = minzoom;
   }
 
-  $: {
-    if (custom.showLayers) {
-      map.addLayer(options, order);
-    } else {
-      map.removeLayer(id);
-    }
-  }
-
   // # ============================================================================ #
   // # diagnose code here
   $: {
@@ -95,10 +87,21 @@
     console.log(options);
     console.log(`order`);
     console.log(order);
-    console.log(`map.getLayer(id)`);
-    console.log(map.getLayer(id));
   }
+  $: {
+    Object.entries(custom).map((arr) => {
+      const id_tmp = arr[0];
+      const want_to_add_id = custom[id_tmp];
 
+      if (want_to_add_id && options.id == id_tmp) {
+        map.addLayer(options, order);
+      }
+
+      if (!want_to_add_id && map.getLayer(id_tmp)) {
+        map.removeLayer(id_tmp);
+      }
+    });
+  }
   // Updates "color" feature states for all geo codes
   // Assumes that each data point has the colours defined on the colorCode key
   function updateColors() {

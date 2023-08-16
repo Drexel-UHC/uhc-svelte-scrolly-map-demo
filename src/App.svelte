@@ -122,24 +122,28 @@
 
   let showSources = true;
   let visLayers = true;
-  let showLayers = false;
-  let showBoundaries = false;
+  let fill = false;
+  let boundaries = false;
+  let highlight = false;
   let actions = {
     map: {
       map01: () => {
         console.log(`######### map01`);
-        showBoundaries = false;
-        showLayers = false;
+        boundaries = false;
+        fill = false;
+        highlight = false;
       },
       map02: () => {
         console.log(`######### map02`);
-        showBoundaries = true;
-        showLayers = false;
+        boundaries = true;
+        fill = false;
+        highlight = false;
       },
       map03: () => {
         console.log(`######### map03`);
-        showBoundaries = false;
-        showLayers = true;
+        boundaries = false;
+        fill = true;
+        highlight = true;
       },
     },
   };
@@ -170,10 +174,22 @@
             maxzoom={13}
           >
             <MapLayer
+              id="boundaries"
+              custom={{
+                boundaries: boundaries,
+                fill: fill,
+              }}
+              type="line"
+              paint={{
+                'line-color': 'black',
+                'line-width': 2,
+              }}
+            />
+            <MapLayer
               id="fill"
               custom={{
-                showBoundaries: showBoundaries,
-                showLayers: showLayers,
+                boundaries: boundaries,
+                fill: fill,
               }}
               data={data.pa}
               type="fill"
@@ -196,8 +212,9 @@
             <MapLayer
               id="highlight"
               custom={{
-                showBoundaries: showBoundaries,
-                showLayers: showLayers,
+                boundaries: boundaries,
+                fill: fill,
+                highlight: highlight,
               }}
               type="line"
               paint={{
