@@ -83,10 +83,10 @@
     console.log(`######### ${id} #######`);
     console.log(`custom`);
     console.log(custom);
-    console.log(`options`);
-    console.log(options);
-    console.log(`order`);
-    console.log(order);
+    // console.log(`options`);
+    // console.log(options);
+    // console.log(`order`);
+    // console.log(order);
   }
   $: {
     Object.entries(custom).map((arr) => {
@@ -108,6 +108,7 @@
     console.log('updating colors...');
 
     data.forEach((d) => {
+      console.log(d);
       map.setFeatureState(
         {
           source: source,

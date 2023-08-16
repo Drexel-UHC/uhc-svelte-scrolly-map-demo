@@ -72,20 +72,6 @@
 
   // Get data for geojson maps
   getData(paData).then((res) => {
-    let vals = res.map((d) => d.age_med).sort((a, b) => a - b);
-    let len = vals.length;
-    let breaks = [
-      vals[0],
-      vals[Math.floor(len * 0.2)],
-      vals[Math.floor(len * 0.4)],
-      vals[Math.floor(len * 0.6)],
-      vals[Math.floor(len * 0.8)],
-      vals[len - 1],
-    ];
-    res.forEach((d) => {
-      d.color = getColor(d.age_med, breaks, colors.seq5);
-    });
-
     data.pa = res;
   });
 
@@ -118,13 +104,14 @@
   }
 
   // # ============================================================================ #
-  // # Scroller Action
+  // #### Scroller Action
 
   let showSources = true;
   let visLayers = true;
   let fill = false;
   let boundaries = false;
   let highlight = false;
+  let colorKey;
   let actions = {
     map: {
       map01: () => {
@@ -143,6 +130,14 @@
         console.log(`######### map03`);
         boundaries = false;
         fill = true;
+        colorKey = 'color_age_med';
+        highlight = true;
+      },
+      map04: () => {
+        console.log(`######### map04`);
+        boundaries = false;
+        fill = true;
+        colorKey = 'color_salary';
         highlight = true;
       },
     },
@@ -194,6 +189,7 @@
               data={data.pa}
               type="fill"
               hover={true}
+              {colorKey}
               bind:hovered
               select={true}
               bind:selected
@@ -257,6 +253,11 @@
     <section data-id="map03">
       <div class="col-medium">
         <p><strong>add median age data layer</strong></p>
+      </div>
+    </section>
+    <section data-id="map04">
+      <div class="col-medium">
+        <p><strong>show salary layer</strong></p>
       </div>
     </section>
   </div>

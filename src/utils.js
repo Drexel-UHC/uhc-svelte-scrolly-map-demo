@@ -16,6 +16,7 @@ export async function getTopo(url, layer) {
 }
 
 export function getColor(value, breaks, colors) {
+
   let color;
   let found = false;
   let i = 1;
