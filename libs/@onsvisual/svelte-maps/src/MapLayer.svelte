@@ -80,13 +80,17 @@
   // # ============================================================================ #
   // # diagnose code here
   $: {
-    console.log(`######### ${id} #######`);
-    console.log(`custom`);
-    console.log(custom);
-    // console.log(`options`);
-    // console.log(options);
-    // console.log(`order`);
-    // console.log(order);
+    if (custom[id]) {
+      console.log(`######### ${id} #######`);
+      console.log(`custom`);
+      console.log(custom);
+      console.log(`data`);
+      console.log(data);
+      console.log(`source`);
+      console.log(source);
+      console.log(`sourceLayer`);
+      console.log(sourceLayer);
+    }
   }
   $: {
     Object.entries(custom).map((arr) => {
@@ -95,20 +99,20 @@
 
       if (want_to_add_id && options.id == id_tmp) {
         map.addLayer(options, order);
+        console.log(`XXXXXXXXXXX   Adding layer ${id_tmp}`);
       }
 
       if (!want_to_add_id && map.getLayer(id_tmp)) {
         map.removeLayer(id_tmp);
+        console.log(`XXXXXXXXXXXXX    Removing layer ${id_tmp}`);
       }
     });
   }
   // Updates "color" feature states for all geo codes
   // Assumes that each data point has the colours defined on the colorCode key
   function updateColors() {
-    console.log('updating colors...');
-
+    console.log('&&&&&&&& updating colors...');
     data.forEach((d) => {
-      console.log(d);
       map.setFeatureState(
         {
           source: source,
@@ -125,6 +129,30 @@
   }
 
   $: data && (data || colorKey) && updateColors();
+
+  // // updates just boundaries
+  // function updateBoundaries() {
+  //   console.log('updating boundaries...');
+  //   console.log(data);
+
+  //   data.forEach((d) => {
+  //     console.log(d);
+  //     // map.setFeatureState(
+  //     //   {
+  //     //     source: source,
+  //     //     sourceLayer: sourceLayer,
+  //     //     id: d[idKey],
+  //     //   },
+  //     //   {
+  //     //     color: colorKey ? d[colorKey] : null,
+  //     //     name: nameKey ? d[nameKey] : null,
+  //     //     value: valueKey ? d[valueKey] : null,
+  //     //   }
+  //     // );
+  //   });
+  // }
+
+  // $: data && updateBoundaries();
 
   // Updates the "highlighted" feature state as geo codes are added to/removed from the highlighted array
   $: if (highlight && highlighted != highlightedPrev) {

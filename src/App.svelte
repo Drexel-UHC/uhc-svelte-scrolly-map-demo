@@ -75,10 +75,15 @@
   // Get geometry for geojson maps
   getTopo(paBounds.url, paBounds.layer).then((res) => {
     geojson = res;
+    console.log(`geojson`);
+    console.log(geojson);
   });
   getTopo(stateBounds.url, stateBounds.layer).then((res) => {
     geojson_state = res;
+    console.log(`geojson_state`);
+    console.log(geojson_state);
   });
+
   // Get data for geojson maps
   getData('./data/data_county.csv').then((res) => {
     data.pa = res;
@@ -136,6 +141,7 @@
   let visLayers = true;
   let fill = false;
   let boundaries = false;
+  let stateBoundaries = false;
   let highlight = false;
   let colorKey;
   let actions = {
@@ -146,6 +152,7 @@
         boundaries = false;
         fill = false;
         highlight = false;
+        stateBoundaries = false;
       },
       map02: () => {
         console.log(`######### map02`);
@@ -153,6 +160,7 @@
         boundaries = true;
         fill = false;
         highlight = false;
+        stateBoundaries = false;
       },
       map03: () => {
         console.log(`######### map03`);
@@ -161,6 +169,7 @@
         fill = true;
         colorKey = 'color_age_med';
         highlight = true;
+        stateBoundaries = false;
       },
       map04: () => {
         console.log(`######### map04`);
@@ -169,6 +178,7 @@
         fill = true;
         colorKey = 'color_salary';
         highlight = true;
+        stateBoundaries = false;
       },
       map05: () => {
         console.log(`######### map05`);
@@ -177,6 +187,15 @@
         fill = true;
         colorKey = 'color_salary';
         highlight = true;
+        stateBoundaries = false;
+      },
+      map06: () => {
+        console.log(`######### map06`);
+        fitBounds(bounds.pa);
+        boundaries = true;
+        fill = false;
+        highlight = false;
+        stateBoundaries = true;
       },
     },
   };
@@ -209,6 +228,7 @@
             <MapLayer
               id="boundaries"
               custom={{
+                stateBoundaries: stateBoundaries,
                 boundaries: boundaries,
                 fill: fill,
               }}
@@ -221,6 +241,7 @@
             <MapLayer
               id="fill"
               custom={{
+                stateBoundaries: stateBoundaries,
                 boundaries: boundaries,
                 fill: fill,
               }}
@@ -269,6 +290,27 @@
               }}
             />
           </MapSource>
+          <MapSource
+            id="stateBounds"
+            type="geojson"
+            data={geojson_state}
+            promoteId={stateBounds.code}
+            maxzoom={13}
+          >
+            <MapLayer
+              id="stateBoundaries"
+              custom={{
+                stateBoundaries: stateBoundaries,
+                boundaries: boundaries,
+                fill: fill,
+              }}
+              type="line"
+              paint={{
+                'line-color': 'red',
+                'line-width': 5,
+              }}
+            />
+          </MapSource>
         </Map>
         <div class="stickDev">
           {id.map}
@@ -301,6 +343,15 @@
     <section data-id="map05">
       <div class="col-medium">
         <p><strong>zoom in on a specific unit</strong></p>
+      </div>
+    </section>
+    <section data-id="map06">
+      <div class="col-medium">
+        <p>
+          <strong
+            >Lets go back to boundaries and add a layer for state boundaries.</strong
+          >
+        </p>
       </div>
     </section>
   </div>
